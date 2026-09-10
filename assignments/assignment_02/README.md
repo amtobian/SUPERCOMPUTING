@@ -94,4 +94,8 @@ that I was learning as I was completing this assignment. I also struggled to mov
 invalid command, illegal PORT command, or unable to build data connection, when trying to navigate through the folders of the nci database. 
 After having a full conversation with AI (ChatGPT) about this issue, I was able to download the file in ftp using my phone hotspot. I'm still not quite sure
 why this worked, but I think there is something with active versus passive mode and/or Eduroam's firewall. As I live on campus, I never had to deal with connecting 
-to the William & Mary VPN as I was doing all of my work on campus, but I struggled with the ftp interface. 
+to the William & Mary VPN as I was doing all of my work on campus, but I struggled with the ftp interface. I also struggled with the workflow between my local computer, 
+github, and the supercomputer. At the end I realized that I was working on my local computer, and then I pushed everything to github. I then had to go onto the supercomputer
+and realize I had duplicated the files that I downloaded from nci. I ended up just overwriting the files, rerunning the chmod commands to make them readable, and then I 
+will need to make another push to github, so that everything is up to date. I don't know if I would necessarly change anything, but there were many hard parts to this assignment. 
+I also had many troubleshooting steps but hopefully I got everything to work. 

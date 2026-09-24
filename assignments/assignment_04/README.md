@@ -17,6 +17,10 @@ the permissions have been updated to -rwxr-xr-- so that the group can read and e
 the summarize_fasta.sh script is saved in /sciclone/home/amtobian/SUPERCOMPUTING/assignments/assignment_04
 
 # task 9
+for file in data/*.fasta
+do 
+bash summarize_fasta.sh "$file"
+done
 
 # reflection 
 

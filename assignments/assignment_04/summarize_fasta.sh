@@ -9,7 +9,7 @@ file="$1"
 sequences=$(seqtk comp "$file" | wc -l)
 
 # calculautes total number of nucleotides
-nucleotides=$(seqtk comp "$file" | awk '{sum +=$2} END {print sum}')
+nucleotides=$(seqtk size "$file")
 
 # table of sequences names and lengths
 table=$(seqtk comp "$file" | cut -f 1,2)

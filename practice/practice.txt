@@ -1,0 +1,2 @@
+I am making a change on my local computer and am practicing pushing to github and back. 
+i am practicing ADDING a line not OVERWRITING to an existing file in shell

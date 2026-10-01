@@ -1,2 +1,7 @@
 .git/
 *.fna
+
+assignments/assignment_05/data/raw
+assignments/assignment_05/data/trimmed
+
+assignments/assignment_02/data

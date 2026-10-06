@@ -1,0 +1,38 @@
+for i in *.fastq
+do
+IN=${i}
+OUT=${i/*.fastq/*._test.fastq}
+head -100
+done
+
+# slurm command ==> sinfo --> shows you what is available 
+scontrol show node --> 
+
+# SLURM
+Slurm Header
+#!/bin/bash
+#SBATCH --job-name=gulftest # name of job
+#SBATCH --nodes=1 # how many nodes do you want to use
+#SBATCH --ntasks=1 # number of tasks per node (usually 1)
+#SBATCH --cpus-per-task=20 #depends on what hpc you are using, nothing above 64 will help you
+#SBATCH --time=2-00:00:00 # bora max wall time is 2 days 
+#SBATCH --mem=120G # if you leave blank will use max. if you use less than max you could potential run multiple jobs at the same time
+#SBATCH --exclusive # no one else can use your node
+#SBATCH --mail-type=FAIL,BEGIN,END # mail to end 
+#SBATCH --mail-user=amtobian@wm.edu 
+#SBATCH --o location/of/output # need to give absolute file path 
+#SBATCH --e location/of/error  # need to give absolute file path 
+
+# set up environment
+modeule load miniforge3
+
+# run test job
+activate conda environment 
+echo "success" to standard out 
+
+# submit 
+
+SED -- streaming editor 
+sed
+sed 's/ /:/g/' search for a space replace with a : and do it globally
+sed 's/  //g' search for 2 spaces in every line and replace it with nothing 

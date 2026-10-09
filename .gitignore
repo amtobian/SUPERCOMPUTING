@@ -5,3 +5,9 @@ assignments/assignment_05/data/raw
 assignments/assignment_05/data/trimmed
 
 assignments/assignment_02/data
+
+lessons/lesson_05/data/
+
+lessons/lesson_06/lambda_reads.fastq
+lessons/lesson_06/mapping.sam
+lessons/lesson_06/ecoli_bl21de3.fasta

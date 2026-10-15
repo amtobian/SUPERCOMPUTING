@@ -29,7 +29,7 @@ Like I previously stated I wasn't able to get task 7 to work but I included in t
 Task 9 was to see if pipeline worked. I still kept getting timed out. I got really frustrated over this assignment. 
 
 The pipeline should be run out of assignment_06 subfolder inside of the SUPERCOMPUTING repo. 
-
+###Reflection
 Task 10 is the one that you are currently reading. If you keep reading below you will see my reflection. 
 I got really frustrated with this assignment. I decided not to work on this assignment over fall break. That means my troubleshooting time is now significantly less and I ran into a lot of issues. 
 Bash kept disconnecting me from my terminal. I couldn't even do the manual download of flye wihtout it disconnecting. Thinking I might've had an isolated incident I did a good little slurm job to make flye locally and finish building it. But then I kept going and I still had issues after issues after issues. 
@@ -45,10 +45,10 @@ I don't really understand what conda is doing and the activate/deactivate steps 
 ###UPDATE
 After taking a break thinking about this assignment, I decided I should see what would happen if I use a little slurm action.
 Well the first time I ran it I had a failure after seven minuites. so then i debugged and asked chatgpt what was wrong and then i decided to make very few changes and run it again. 
-So I ran it again and I got stuff that looked right! And it fully ran before I was kicked out! I view this as a success :)))))
-But then I looked at my outputs to visually check and realized that I didn't delete all my extra files/directories inside fo assemblies because I didn't know what they were named. 
+So I ran it again and I got stuff that looked right! And it fully ran before I was kicked out (because it was slurm)! I view this as a success :)))))
+But then I looked at my outputs to visually check and realized that I didn't delete all my extra files/directories inside of assemblies because I didn't know what they were named. 
 So then I added to my scripts to fully remove those things and I hope that script works now because I'm not checking it again -- it is way to late for that it it is past my self-imposed bedtime. 
-
+(I manually removed the files instead of running the script again because I decided I had already learned something from this assignment.)
 So there you have it folks, this should work when I tested it via copying and pasting my pipeline script into a new script with a slurm header and running it for 15 mins. 
 I do know just as a warning that the script is a little finicky and you have to be careful with it like if you already have flye installed it won't work but I'm not sure how to solve those problems right now. That should be the next lecture (or the next thing I look up when I am not really tired!!!)
 

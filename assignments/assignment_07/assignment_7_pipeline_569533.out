@@ -1,0 +1,41 @@
+Downloading SRR32217586...
+Finished SRR32217586
+Downloading SRR32217587...
+Finished SRR32217587
+Downloading SRR32217588...
+Finished SRR32217588
+Downloading SRR32217589...
+Finished SRR32217589
+Downloading SRR32217590...
+Finished SRR32217590
+Downloading SRR32217591...
+Finished SRR32217591
+Downloading SRR32217592...
+Finished SRR32217592
+Downloading SRR32217593...
+Finished SRR32217593
+Downloading SRR32217594...
+Finished SRR32217594
+Downloading SRR32217595...
+Finished SRR32217595
+Downloading dog reference genome...
+Archive:  data/dog_reference/dog_reference.zip
+  inflating: data/dog_reference/ncbi_dataset/README.md  
+  inflating: data/dog_reference/ncbi_dataset/ncbi_dataset/data/assembly_data_report.jsonl  
+  inflating: data/dog_reference/ncbi_dataset/ncbi_dataset/data/GCF_011100685.1/GCF_011100685.1_UU_Cfam_GSD_1.0_genomic.fna  
+  inflating: data/dog_reference/ncbi_dataset/ncbi_dataset/data/dataset_catalog.json  
+  inflating: data/dog_reference/ncbi_dataset/md5sum.txt  
+All downloads complete!
+Cleaning sample: SRR32217586
+Cleaning sample: SRR32217587
+Cleaning sample: SRR32217588
+Cleaning sample: SRR32217589
+Cleaning sample: SRR32217590
+Cleaning sample: SRR32217591
+Cleaning sample: SRR32217592
+Cleaning sample: SRR32217593
+Cleaning sample: SRR32217594
+Cleaning sample: SRR32217595
+Read cleaning complete!
+ERROR: bwa not found.
+Analysis Complete!

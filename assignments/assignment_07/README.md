@@ -1,96 +1,123 @@
 # Assignment 7: Dog-Genome Read Mapping
 
-## Goal
+This assignment used paired-end Illumina shotgun metagenomic reads to look for DNA that matches the dog reference genome. The workflow quality-filters reads, maps them to the *Canis familiaris* genome at 95% minimum identity, extracts mapped reads, and summarizes the results for each accession.
 
-Quality-filter paired-end Illumina shotgun metagenomic reads, map them to the
-*Canis familiaris* reference genome with at least 95% identity, and retain the
-mapped reads with samtools.
+## Project overview
 
-## Current run table: not eligible for this assignment
+The pipeline was set up in this assignment directory and organized into separate scripts for downloading data, cleaning reads, mapping reads, and summarizing results. The final workflow is submitted through SLURM so it can run reproducibly on the cluster.
 
-The current Run Selector export is [data/SraRunTableAMP.csv](./data/SraRunTableAMP.csv)
-and contains 10 runs. Although the runs are Illumina and report random library
-selection, the metadata labels **all 10 as `Assay Type=AMPLICON`**. One run also
-reports `LibrarySource=GENOMIC` rather than `METAGENOMIC`, and one run is
-`SINGLE` rather than `PAIRED`.
+## Files and folders
 
-The instructions explicitly ask for random shotgun metagenomic data and say
-not to use amplicons. Therefore, this table does **not** meet the assignment's
-criteria and should not be used for the final run. To prevent accidentally
-using it, `01_download_data.sh` now checks the metadata before downloading and
-stops with an error unless all rows are paired `WGS`, `RANDOM`,
-`METAGENOMIC`, `ILLUMINA` runs. The other scripts also point to this same
-filename. Replace this CSV with a qualifying table before submitting the
-pipeline.
+- `data/` — raw accessions, curated SRA metadata, and processed read data
+- `output/` — SLURM stdout/stderr logs
+- `ref/` — reference genome and index files used for mapping
+- `scripts/` — reusable workflow scripts
+- `assignment_7_pipeline.slurm` — pipeline submission script
+- `prompt_action_log.md` — documentation of project decisions and troubleshooting
 
-This table reports about **458 million bases** and **171 MB** in the SRA
-`Bytes` field. Those small totals may explain why an amplicon workflow would
-finish much faster, but a fast result on this table would not satisfy the
-assignment. The exact SRA search string is not recorded in the repository.
+## Tasks completed
 
-## Previous run and current data
+### Task 1: Set up the assignment directory
 
-The previous SLURM log is from a different accession selection. It showed
-fastp taking 3.58 hours for 13 old accessions, and BBMap taking 12.31 hours for
-one old sample (47 million reads) with four mapping threads, before SLURM
-cancelled the job at the two-day limit. Those timings are not an estimate for
-this new table.
+- Created the assignment folder structure and project directories.
+- Added this README, a script folder, and an output folder for cluster logs.
+- Organized the project so download, QC, mapping, and summary steps are kept separate.
 
-The working data directory at `/sciclone/home/amtobian/scr10/assignment_07/data`
-may still contain raw, cleaned, and mapped files from the older selections.
-They have not been deleted. The download script will refuse the current
-ineligible table before starting; after replacing it with a valid paired
-shotgun table, the scripts iterate only over the accessions in that table.
+### Task 2: Download sequence data from SRA
 
-## Pipeline files and behavior
+- Used the validated metadata file [data/SraRunTableCorrect.csv](./data/SraRunTableCorrect.csv).
+- Confirmed the accession list matched the assignment criteria for paired-end metagenomic Illumina data.
+- Built a download script to fetch the paired reads with `fasterq-dump` and retrieve the dog reference genome.
+- Kept the run table consistent across the workflow so all scripts process the same set of accessions.
 
-- `data/SraRunTableAMP.csv` — current Run Selector export. Replace its contents
-  with a qualifying table before running the pipeline.
-- `scripts/01_download_data.sh` — validates the run table, downloads paired
-  reads with `fasterq-dump`, compresses them, and downloads/extracts the
-  reference genome.
-- `scripts/02_clean_reads.sh` — runs fastp for each listed accession. It uses
-  fastp defaults for trimming/filtering and the SLURM CPU allocation for
-  threads. No explicit quality, length, or adapter options are passed.
-- `scripts/03_map_reads.sh` — maps each listed pair using BBMap `minid=0.95`,
-  retains mapped alignments with `samtools view -F 4`, then sorts and indexes
-  the BAM. It writes a per-accession `samtools flagstat` report.
-- `assignment_7_pipeline.slurm` — requests 20 CPUs, 120 GB RAM, and two days on
-  Bora. fastp and BBMap use the allocated CPU count; samtools sorting uses four
-  threads. SLURM stdout and stderr go to `output/`.
+### Task 3: Clean up the raw reads
 
-The scripts use `/sciclone/home/amtobian/scr10/assignment_07/data` for large
-inputs and intermediate data. After replacing the table with valid metadata,
-submit from this assignment directory on the development server after
-selecting the intended SLURM cluster:
+- Created `scripts/02_clean_reads.sh` to process each sample in a loop.
+- Used `fastp` to quality-filter and trim the paired-end reads.
+- Stored cleaned reads in the project data directories and saved per-sample HTML/JSON QC reports.
+
+### Task 4: Map clean reads to the dog genome
+
+- Created `scripts/03_map_reads.sh` for the genome-mapping step.
+- Used BBMap with `minid=0.95` to require at least 95% alignment identity.
+- Mapped each cleaned sample against the dog reference genome and retained the mapped alignments.
+
+### Task 5: Extract reads that matched the dog genome
+
+- Continued the mapping step with `samtools`.
+- Used `samtools view -F 4` to exclude unmapped reads and keep only reads with significant positive matches.
+- Sorted and indexed the BAM files and generated per-sample flagstat summaries.
+
+### Task 6: Submit the job to SLURM
+
+- Built `assignment_7_pipeline.slurm` to run the full workflow in order.
+- The pipeline calls the data download, read cleaning, and mapping scripts sequentially.
+- Job output is sent to the `output/` directory so execution and errors can be inspected.
+
+### Task 7: Inspect stdout and stderr
+
+- Reviewed SLURM log files to confirm the pipeline status.
+- Checked errors and job output to verify that file paths, tool usage, and sample processing were correct.
+
+### Task 8: Inspect the results
+
+- Summarized the number of QC-passing reads and reads mapped to the dog genome for each accession.
+- The table below shows the final results from the successful pipeline run.
+
+### Results summary
+
+QC reads are the number of reads that passed `fastp`; mapped reads are the number of primary reads retained by `samtools flagstat` after filtering to mapped alignments. Both counts are reported as read counts rather than bases.
+
+| Accession | QC reads (fastp) | Reads mapped to dog (95% identity) |
+|---|---:|---:|
+| SRR25358152 | 1,791,846 | 164 |
+| SRR25358331 | 3,379,262 | 16 |
+| SRR24991845 | 104,028,110 | 2,887 |
+| SRR28772065 | 3,133,808 | 560 |
+| SRR28772569 | 3,080,958 | 554 |
+| SRR28772586 | 3,447,984 | 741 |
+| ERR17724334 | 56,035,008 | 1,989 |
+| ERR17724335 | 34,231,078 | 691 |
+| DRR1001067 | 119,015,824 | 7,287 |
+| DRR1001068 | 102,918,144 | 6,462 |
+
+### Task 9: Document everything
+
+- Added documentation in this README and the project log file.
+- Recorded pipeline behavior, file locations, commands, and troubleshooting notes so the project is easy to follow.
+
+### Run status
+
+Job 610462 completed the pipeline for the ten accessions in the current run table. The current run table is [data/SraRunTableCorrect.csv](./data/SraRunTableCorrect.csv), and the results below reflect the values generated from that metadata file.
+
+### Pipeline behavior
+
+- `data/SraRunTableCorrect.csv` — current run table used by the pipeline
+- `scripts/01_download_data.sh` — verifies the run table, downloads paired reads with `fasterq-dump`, and downloads/extracts the dog genome
+- `scripts/02_clean_reads.sh` — trims and filters reads with `fastp` and saves per-sample QC reports
+- `scripts/03_map_reads.sh` — maps reads to the dog reference genome using BBMap at 95% identity, keeps mapped reads with `samtools`, and writes flagstat summaries
+- `scripts/04_summarize_results.py` — generates read-count summary output from the fastp JSON reports and mapping flagstats
+- `assignment_7_pipeline.slurm` — submits the full workflow to SLURM with the required resource allocation
+
+### How to run the pipeline
+
+From this assignment directory:
 
 ```bash
 sbatch assignment_7_pipeline.slurm
 ```
 
-The updated pipeline has not been run against the current table. The previous
-run used BBMap's automatic Java heap, which was 56 GB in its log; it did not
-fail for lack of memory. The observed blocker was processing time.
+After the pipeline finishes, you can print the summary table with:
 
-## Results
+```bash
+python scripts/04_summarize_results.py
+```
 
-No final QC or mapped-read counts are available for the current table. Do not
-report amplicon results as the requested shotgun metagenome results. After a
-valid table is supplied and the pipeline completes, use the per-run
-`*_minid95_flagstat.txt` reports in the mapped data directory to populate this
-table. `samtools flagstat` reports alignment counts; use the same definition
-for every sample.
 
-| Accession | QC reads (fastp) | Reads mapped to dog (95% identity) |
-|---|---:|---:|
-| Pending valid metadata and pipeline run | — | — |
+### Task 10: Prepare the final project for GitHub
 
-## Reflection
+- Saved the completed workflow, scripts, results, and documentation in the repository for sharing and review.
 
-The main challenge was diagnosing why the previous run took far longer than
-expected: the old data set was very large, and both fastp and BBMap used only
-four threads despite a 20-CPU SLURM request. I learned to check accession
-metadata against the scientific question, including assay type and read
-layout, and to make scripts stop before processing a dataset that does not
-meet the assignment criteria. The current table is smaller but is labeled
-amplicon, so the final analysis remains pending a qualifying shotgun dataset.
+
+## Personal reflection
+This was definitely the hardest assignment for me to complete! I had trouble writing the code and using the correct tools for the analysis during this assignment, even with help from my 'robot servant'. The first couple of times I ran this assignment, I was not getting any output and that might've been because of how small my files were. I also struggled to find the correct type of data. I spend a lot of time finding data, downloading the Sra Table, putting the Table on the hpc only to realize that it didn't work. I had multiple times when I was running this pipeline (with some variation from the one presented here) where I ran out of time. One time I even ran out of time when the time limit was 2 days. This is because I didn't have the right type of data. The run for this attempt took significantly less time, but still took about 13 hours for the full completion of the pipeline. I definitely sturggled through this assignment, but through the struggle I learned about what type of data I need to make sure I have, and different time allotments on the hpc. I also learned about what it is like to have an AI agent write code for me and what prompting an AI agent looks like during this assignment. 

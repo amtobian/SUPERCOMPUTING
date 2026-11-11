@@ -18,7 +18,7 @@ PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_DIR"
 
 DATA_DIR="${PIPELINE_DATA_DIR:-/sciclone/home/amtobian/scr10/assignment_07/data}"
-RUN_TABLE="$PROJECT_DIR/data/SraRunTableAMP.csv"
+RUN_TABLE="$PROJECT_DIR/data/SraRunTableCorrect.csv"
 CLEAN_DIR="$DATA_DIR/clean"
 REFERENCE="$DATA_DIR/dog_reference/dog_reference_genome.fna"
 OUTPUT_DIR="$DATA_DIR/mapped"

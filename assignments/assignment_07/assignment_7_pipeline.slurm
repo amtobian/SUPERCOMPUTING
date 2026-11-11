@@ -12,7 +12,7 @@
 
 set -euo pipefail
 
-PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="${SLURM_SUBMIT_DIR:?SLURM_SUBMIT_DIR is not set}"
 cd "$PROJECT_DIR"
 
 export PIPELINE_DATA_DIR="/sciclone/home/amtobian/scr10/assignment_07/data"

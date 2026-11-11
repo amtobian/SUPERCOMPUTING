@@ -1,0 +1,62 @@
+Downloading SRR25358152...
+Finished SRR25358152
+Downloading SRR25358331...
+Finished SRR25358331
+Downloading SRR24991845...
+Finished SRR24991845
+Downloading SRR28772065...
+Finished SRR28772065
+Downloading SRR28772569...
+Finished SRR28772569
+Downloading SRR28772586...
+Finished SRR28772586
+Downloading ERR17724334...
+Finished ERR17724334
+Downloading ERR17724335...
+Finished ERR17724335
+Downloading DRR1001067...
+Finished DRR1001067
+Downloading DRR1001068...
+Finished DRR1001068
+Compressing FASTQ files with pigz using 20 threads...
+Downloading dog reference genome...
+Archive:  /sciclone/home/amtobian/scr10/assignment_07/data/dog_reference/dog_reference.zip
+  inflating: /sciclone/home/amtobian/scr10/assignment_07/data/dog_reference/ncbi_dataset/README.md  
+  inflating: /sciclone/home/amtobian/scr10/assignment_07/data/dog_reference/ncbi_dataset/ncbi_dataset/data/assembly_data_report.jsonl  
+  inflating: /sciclone/home/amtobian/scr10/assignment_07/data/dog_reference/ncbi_dataset/ncbi_dataset/data/GCF_011100685.1/GCF_011100685.1_UU_Cfam_GSD_1.0_genomic.fna  
+  inflating: /sciclone/home/amtobian/scr10/assignment_07/data/dog_reference/ncbi_dataset/ncbi_dataset/data/dataset_catalog.json  
+  inflating: /sciclone/home/amtobian/scr10/assignment_07/data/dog_reference/ncbi_dataset/md5sum.txt  
+All downloads complete!
+Cleaning sample: SRR25358152
+Cleaning sample: SRR25358331
+Cleaning sample: SRR24991845
+Cleaning sample: SRR28772065
+Cleaning sample: SRR28772569
+Cleaning sample: SRR28772586
+Cleaning sample: ERR17724334
+Cleaning sample: ERR17724335
+Cleaning sample: DRR1001067
+Cleaning sample: DRR1001068
+Read cleaning complete!
+Aligning sample: SRR25358152
+Finished sample: SRR25358152; flagstat: /sciclone/home/amtobian/scr10/assignment_07/data/mapped/SRR25358152_minid95_flagstat.txt
+Aligning sample: SRR25358331
+Finished sample: SRR25358331; flagstat: /sciclone/home/amtobian/scr10/assignment_07/data/mapped/SRR25358331_minid95_flagstat.txt
+Aligning sample: SRR24991845
+Finished sample: SRR24991845; flagstat: /sciclone/home/amtobian/scr10/assignment_07/data/mapped/SRR24991845_minid95_flagstat.txt
+Aligning sample: SRR28772065
+Finished sample: SRR28772065; flagstat: /sciclone/home/amtobian/scr10/assignment_07/data/mapped/SRR28772065_minid95_flagstat.txt
+Aligning sample: SRR28772569
+Finished sample: SRR28772569; flagstat: /sciclone/home/amtobian/scr10/assignment_07/data/mapped/SRR28772569_minid95_flagstat.txt
+Aligning sample: SRR28772586
+Finished sample: SRR28772586; flagstat: /sciclone/home/amtobian/scr10/assignment_07/data/mapped/SRR28772586_minid95_flagstat.txt
+Aligning sample: ERR17724334
+Finished sample: ERR17724334; flagstat: /sciclone/home/amtobian/scr10/assignment_07/data/mapped/ERR17724334_minid95_flagstat.txt
+Aligning sample: ERR17724335
+Finished sample: ERR17724335; flagstat: /sciclone/home/amtobian/scr10/assignment_07/data/mapped/ERR17724335_minid95_flagstat.txt
+Aligning sample: DRR1001067
+Finished sample: DRR1001067; flagstat: /sciclone/home/amtobian/scr10/assignment_07/data/mapped/DRR1001067_minid95_flagstat.txt
+Aligning sample: DRR1001068
+Finished sample: DRR1001068; flagstat: /sciclone/home/amtobian/scr10/assignment_07/data/mapped/DRR1001068_minid95_flagstat.txt
+Read mapping complete!
+Analysis Complete!

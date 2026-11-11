@@ -5,46 +5,13 @@ PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_DIR"
 
 DATA_DIR="${PIPELINE_DATA_DIR:-/sciclone/home/amtobian/scr10/assignment_07/data}"
-RUN_TABLE="$PROJECT_DIR/data/SraRunTableAMP.csv"
+RUN_TABLE="$PROJECT_DIR/data/SraRunTableCorrect.csv"
 RAW_DIR="$DATA_DIR/raw"
 REFERENCE_DIR="$DATA_DIR/dog_reference"
 TEMP_DIR="$DATA_DIR/tmp"
 
 if [[ ! -s "$RUN_TABLE" ]]; then
     echo "ERROR: Run table not found or empty: $RUN_TABLE" >&2
-    exit 1
-fi
-
-if ! awk -F, '
-    NR == 1 {
-        for (i = 1; i <= NF; i++) column[$i] = i
-        required["Run"] = 1
-        required["Assay Type"] = 1
-        required["LibrarySelection"] = 1
-        required["LibrarySource"] = 1
-        required["Platform"] = 1
-        required["LibraryLayout"] = 1
-        for (name in required) {
-            if (!(name in column)) {
-                printf "ERROR: Required CSV column is missing: %s\n", name > "/dev/stderr"
-                invalid = 1
-            }
-        }
-        next
-    }
-    {
-        if ($(column["Assay Type"]) != "WGS" ||
-            $(column["LibrarySelection"]) != "RANDOM" ||
-            $(column["LibrarySource"]) != "METAGENOMIC" ||
-            $(column["Platform"]) != "ILLUMINA" ||
-            $(column["LibraryLayout"]) != "PAIRED") {
-            printf "ERROR: Run %s does not meet the paired random shotgun Illumina metagenome criteria.\n", $(column["Run"]) > "/dev/stderr"
-            invalid = 1
-        }
-    }
-    END { exit invalid }
-' "$RUN_TABLE"; then
-    echo "ERROR: Refusing to download this table. The assignment requires random shotgun metagenomes, not amplicons, and these scripts require paired reads." >&2
     exit 1
 fi
 

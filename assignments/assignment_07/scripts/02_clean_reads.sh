@@ -6,7 +6,7 @@ PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_DIR"
 
 DATA_DIR="${PIPELINE_DATA_DIR:-/sciclone/home/amtobian/scr10/assignment_07/data}"
-RUN_TABLE="$PROJECT_DIR/data/SraRunTableAMP.csv"
+RUN_TABLE="$PROJECT_DIR/data/SraRunTableCorrect.csv"
 RAW_DIR="$DATA_DIR/raw"
 CLEAN_DIR="$DATA_DIR/clean"
 THREADS="${SLURM_CPUS_PER_TASK:-4}"
@@ -39,6 +39,10 @@ while IFS= read -r accession; do
     out2="$CLEAN_DIR/${base}_2.fastq.gz"
     tmp1="$CLEAN_DIR/.${base}_1.partial.fastq.gz"
     tmp2="$CLEAN_DIR/.${base}_2.partial.fastq.gz"
+    fastp_json="$CLEAN_DIR/${base}_fastp.json"
+    fastp_html="$CLEAN_DIR/${base}_fastp.html"
+    tmp_json="$CLEAN_DIR/.${base}_fastp.partial.json"
+    tmp_html="$CLEAN_DIR/.${base}_fastp.partial.html"
 
     if [[ ! -s "$in1" ]]; then
         echo "ERROR: Matching forward read not found or empty: $in1" >&2
@@ -58,23 +62,27 @@ while IFS= read -r accession; do
     fi
 
     echo "Cleaning sample: $base"
-    rm -f -- "$tmp1" "$tmp2"
+    rm -f -- "$tmp1" "$tmp2" "$tmp_json" "$tmp_html"
 
     fastp \
         --in1 "$in1" \
         --in2 "$in2" \
         --out1 "$tmp1" \
         --out2 "$tmp2" \
+        --json "$tmp_json" \
+        --html "$tmp_html" \
         --thread "$THREADS" \
         > /dev/null
 
-    if [[ ! -s "$tmp1" || ! -s "$tmp2" ]]; then
-        echo "ERROR: fastp did not produce both cleaned files for $base." >&2
+    if [[ ! -s "$tmp1" || ! -s "$tmp2" || ! -s "$tmp_json" || ! -s "$tmp_html" ]]; then
+        echo "ERROR: fastp did not produce both cleaned files and reports for $base." >&2
         exit 1
     fi
 
     mv -f -- "$tmp1" "$out1"
     mv -f -- "$tmp2" "$out2"
+    mv -f -- "$tmp_json" "$fastp_json"
+    mv -f -- "$tmp_html" "$fastp_html"
 done < <(tail -n +2 "$RUN_TABLE" | cut -d ',' -f 1)
 
 echo "Read cleaning complete!"
